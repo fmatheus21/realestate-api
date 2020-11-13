@@ -1,8 +1,10 @@
 package com.firecode.app.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.firecode.app.controller.util.LocalDatetUtil;
 import com.firecode.app.model.entity.ClienteEntity;
 import com.firecode.app.model.entity.PessoaEntity;
@@ -12,9 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonPropertyOrder({ "id", "nomeRazaosocial" })
 @JsonInclude(Include.NON_NULL)
 public class ClienteDto {
 
@@ -24,11 +28,13 @@ public class ClienteDto {
     private int id;
     @Getter
     @Setter
-    @NotNull
+    @NotNull    
     @NotBlank
     @JsonProperty("nome_razaosocial")
+    //@JsonGetter("nome_razaosocial")    
+    @Size(min = 3, max = 70)
     private String nomeRazaosocial;
-    @Getter
+    @Getter 
     @Setter
     @NotNull
     @NotBlank
@@ -43,42 +49,11 @@ public class ClienteDto {
     @Setter
     @NotNull
     @JsonProperty("id_usuario")
-    private Integer idUsuario;
-    @Getter
-    @Setter
-    @NotNull
-    @NotBlank
-    @JsonProperty("cep")
-    private String cep;
-
+    private Integer idUsuario;   
     @Getter
     @Setter
     @JsonProperty("tipo")
-    private String pessoaTipo;
-    @Getter
-    @Setter
-    @JsonProperty("logradouro")
-    private String logradouro;
-    @Getter
-    @Setter
-    @JsonProperty("numero")
-    private String numero;
-    @Getter
-    @Setter
-    @JsonProperty("complemento")
-    private String complemento;
-    @Getter
-    @Setter
-    @JsonProperty("bairro")
-    private String bairro;
-    @Getter
-    @Setter
-    @JsonProperty("cidade")
-    private String cidade;
-    @Getter
-    @Setter
-    @JsonProperty("uf")
-    private String uf;
+    private String pessoaTipo;    
     @Getter
     @Setter
     @JsonProperty("cadastrado_por")

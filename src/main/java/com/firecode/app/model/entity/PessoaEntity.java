@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.firecode.app.model.entity;
 
 import java.io.Serializable;
@@ -16,13 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -33,33 +27,39 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "pessoa", catalog = "imobiliaria", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"}),
     @UniqueConstraint(columnNames = {"cpf_cnpj"})})
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PessoaEntity.findAll", query = "SELECT p FROM PessoaEntity p"),
-    @NamedQuery(name = "PessoaEntity.findById", query = "SELECT p FROM PessoaEntity p WHERE p.id = :id"),
-    @NamedQuery(name = "PessoaEntity.findByNomeRazaosocial", query = "SELECT p FROM PessoaEntity p WHERE p.nomeRazaosocial = :nomeRazaosocial"),
-    @NamedQuery(name = "PessoaEntity.findByCpfCnpj", query = "SELECT p FROM PessoaEntity p WHERE p.cpfCnpj = :cpfCnpj")})
+
 public class PessoaEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+
     @Basic(optional = false)
+    @NotNull
+    @NotBlank
     @Column(name = "nome_razaosocial", nullable = false, length = 70)
     private String nomeRazaosocial;
+
     @Basic(optional = false)
+    @NotNull
+    @NotBlank
     @Column(name = "cpf_cnpj", nullable = false, length = 20)
     private String cpfCnpj;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoa")
     private ClienteEntity clienteEntity;
+
     @JoinColumn(name = "id_tipo", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private PessoaTipoEntity idTipo;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoa")
     private EnderecoEntity enderecoEntity;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPessoa")
     private Collection<UsuarioEntity> usuarioEntityCollection;
 
@@ -68,12 +68,6 @@ public class PessoaEntity implements Serializable {
 
     public PessoaEntity(Integer id) {
         this.id = id;
-    }
-
-    public PessoaEntity(Integer id, String nomeRazaosocial, String cpfCnpj) {
-        this.id = id;
-        this.nomeRazaosocial = nomeRazaosocial;
-        this.cpfCnpj = cpfCnpj;
     }
 
     public Integer getId() {
@@ -147,15 +141,12 @@ public class PessoaEntity implements Serializable {
             return false;
         }
         PessoaEntity other = (PessoaEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "com.firecode.app.model.entity.PessoaEntity[ id=" + id + " ]";
     }
-    
+
 }

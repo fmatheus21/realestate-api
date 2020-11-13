@@ -3,6 +3,7 @@ package com.firecode.app.controller.resource;
 import com.firecode.app.controller.dto.ClienteDto;
 import com.firecode.app.controller.rule.ClienteRule;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class ClienteResource {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDto> post(@RequestBody ClienteDto dto, HttpServletResponse response) {
+    public ResponseEntity<ClienteDto> post(@RequestBody @Valid ClienteDto dto, HttpServletResponse response) {
         return clienteRule.create(dto, response);
     }
 

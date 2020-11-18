@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.firecode.app.model.entity;
 
 import java.io.Serializable;
@@ -14,45 +9,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Fernando Matheus
- */
 @Entity
 @Table(name = "cidade", catalog = "imobiliaria", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CidadeEntity.findAll", query = "SELECT c FROM CidadeEntity c"),
-    @NamedQuery(name = "CidadeEntity.findById", query = "SELECT c FROM CidadeEntity c WHERE c.id = :id"),
-    @NamedQuery(name = "CidadeEntity.findByDescricao", query = "SELECT c FROM CidadeEntity c WHERE c.descricao = :descricao"),
-    @NamedQuery(name = "CidadeEntity.findByUf", query = "SELECT c FROM CidadeEntity c WHERE c.uf = :uf"),
-    @NamedQuery(name = "CidadeEntity.findByCodigoIbge", query = "SELECT c FROM CidadeEntity c WHERE c.codigoIbge = :codigoIbge"),
-    @NamedQuery(name = "CidadeEntity.findByDdd", query = "SELECT c FROM CidadeEntity c WHERE c.ddd = :ddd")})
+
 public class CidadeEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+
     @Column(name = "descricao", length = 100)
     private String descricao;
-    @Column(name = "uf", length = 2)
+
+    @NotNull     
+    @Column(name = "uf", length = 2,  nullable = false)
     private String uf;
-    @Column(name = "codigo_ibge")
+
+    @NotNull     
+    @Column(name = "codigo_ibge", nullable = false)
     private Integer codigoIbge;
-    @Column(name = "ddd", length = 2)
+
+    @NotNull     
+    @Column(name = "ddd", length = 2, nullable = false)
     private String ddd;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCidade")
     private Collection<LogradouroEntity> logradouroEntityCollection;
 
@@ -136,5 +127,5 @@ public class CidadeEntity implements Serializable {
     public String toString() {
         return "com.firecode.app.model.entity.CidadeEntity[ id=" + id + " ]";
     }
-    
+
 }

@@ -1,5 +1,6 @@
 package com.firecode.app.model.entity;
 
+import com.firecode.app.controller.util.AppUtil;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -31,7 +32,7 @@ public class EnderecoEntity implements Serializable {
     private Integer id;
 
     @Basic(optional = false)
-    @NotNull
+    @NotNull 
     @NotBlank
     @Column(name = "numero", nullable = false, length = 20)
     private String numero;
@@ -71,11 +72,16 @@ public class EnderecoEntity implements Serializable {
     }
 
     public String getComplemento() {
+        if (complemento != null) {
+            return AppUtil.convertFirstUppercaseCharacter(AppUtil.removeDuplicateSpace(complemento));
+        }
         return complemento;
     }
 
     public void setComplemento(String complemento) {
-        this.complemento = complemento;
+        if (complemento != null) {
+            this.complemento = AppUtil.convertAllUppercaseCharacters(AppUtil.removeDuplicateSpace(complemento));
+        }
     }
 
     public LogradouroEntity getIdLogradouro() {

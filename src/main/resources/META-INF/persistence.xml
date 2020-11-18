@@ -12,6 +12,7 @@
     <class>com.firecode.app.model.entity.UsuarioStatusEntity</class>
     <class>com.firecode.app.model.entity.PessoaEntity</class>
     <class>com.firecode.app.model.entity.UsuarioEntity</class>
+    <class>com.firecode.app.model.entity.TesteEntity</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/imobiliaria?serverTimezone=UTC&amp;useLegacyDatetimeCode=true"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

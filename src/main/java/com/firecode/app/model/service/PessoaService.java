@@ -15,8 +15,16 @@ public class PessoaService {
         return dao.create(entity);
     }
 
+    public PessoaEntity update(PessoaEntity entity) {
+        return dao.update(entity);
+    }
+
     public PessoaEntity findBycpfCnpj(String value) {
         return dao.findByCpfCnpj(value);
+    }
+
+    public void deleteById(int id) {
+        dao.deleteById(id);
     }
 
 }

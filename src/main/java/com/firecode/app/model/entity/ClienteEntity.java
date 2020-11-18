@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,20 +31,18 @@ public class ClienteEntity implements Serializable {
     private Integer id;
 
     @Basic(optional = false)
-    @NotNull
-    @NotBlank
+    @NotNull  
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime dataCadastro;
 
     @Basic(optional = false)
-    @NotNull
-    @NotBlank
+    @NotNull    
     @Column(name = "data_alteracao", nullable = false)
     private LocalDateTime dataAlteracao;
 
     @JoinColumn(name = "id_pessoa", referencedColumnName = "id", nullable = false)
     @OneToOne(optional = false)
-    private PessoaEntity idPessoa;
+    private PessoaEntity idPessoa; 
 
     @JoinColumn(name = "id_usuario_cadastro", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)

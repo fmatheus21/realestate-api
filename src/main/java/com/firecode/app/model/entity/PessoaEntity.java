@@ -1,11 +1,13 @@
 package com.firecode.app.model.entity;
 
+import com.firecode.app.controller.util.AppUtil;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,10 +21,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Fernando Matheus
- */
 @Entity
 @Table(name = "pessoa", catalog = "imobiliaria", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"}),
@@ -49,21 +47,21 @@ public class PessoaEntity implements Serializable {
     @NotBlank
     @Column(name = "cpf_cnpj", nullable = false, length = 20)
     private String cpfCnpj;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoa")
+ 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoa",fetch = FetchType.LAZY)
     private ClienteEntity clienteEntity;
 
     @JoinColumn(name = "id_tipo", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private PessoaTipoEntity idTipo;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoa")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idPessoa", fetch = FetchType.LAZY)
     private EnderecoEntity enderecoEntity;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPessoa")
+  
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPessoa", fetch = FetchType.LAZY)
     private Collection<UsuarioEntity> usuarioEntityCollection;
 
-    public PessoaEntity() {
+    public PessoaEntity() {   
     }
 
     public PessoaEntity(Integer id) {
@@ -79,19 +77,29 @@ public class PessoaEntity implements Serializable {
     }
 
     public String getNomeRazaosocial() {
+        if (nomeRazaosocial != null) {
+            return AppUtil.convertFirstUppercaseCharacter(AppUtil.removeDuplicateSpace(nomeRazaosocial));
+        }
         return nomeRazaosocial;
     }
 
     public void setNomeRazaosocial(String nomeRazaosocial) {
-        this.nomeRazaosocial = nomeRazaosocial;
+        this.nomeRazaosocial = AppUtil.convertAllUppercaseCharacters(AppUtil.removeDuplicateSpace(nomeRazaosocial));
     }
 
     public String getCpfCnpj() {
+        if (cpfCnpj != null) {
+            if (idTipo.getId() == 1) {
+                return AppUtil.formatCPF(cpfCnpj);
+            } else if (idTipo.getId() == 2) {
+                return AppUtil.formatCNPJ(cpfCnpj);
+            }
+        }
         return cpfCnpj;
     }
 
     public void setCpfCnpj(String cpfCnpj) {
-        this.cpfCnpj = cpfCnpj;
+        this.cpfCnpj = AppUtil.removeSpecialCharacters(cpfCnpj);
     }
 
     public ClienteEntity getClienteEntity() {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.firecode.app.model.entity;
 
 import java.io.Serializable;
@@ -14,38 +9,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Fernando Matheus
- */
+
 @Entity
 @Table(name = "usuario_status", catalog = "imobiliaria", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"}),
     @UniqueConstraint(columnNames = {"status"})})
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UsuarioStatusEntity.findAll", query = "SELECT u FROM UsuarioStatusEntity u"),
-    @NamedQuery(name = "UsuarioStatusEntity.findById", query = "SELECT u FROM UsuarioStatusEntity u WHERE u.id = :id"),
-    @NamedQuery(name = "UsuarioStatusEntity.findByStatus", query = "SELECT u FROM UsuarioStatusEntity u WHERE u.status = :status")})
+
 public class UsuarioStatusEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+    
     @Basic(optional = false)
     @Column(name = "status", nullable = false, length = 45)
     private String status;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idStatus")
     private Collection<UsuarioEntity> usuarioEntityCollection;
 

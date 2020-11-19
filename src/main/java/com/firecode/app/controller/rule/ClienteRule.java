@@ -92,7 +92,7 @@ public class ClienteRule {
         String cep = AppUtil.removeSpecialCharacters(dto.getCep());
 
         // Se o cep informado for diferente que o cep que ja existe, realiza um consulta do novo sep 
-        if (cep != cliente.getIdPessoa().getEnderecoEntity().getIdLogradouro().getCep()) {
+        if (!cep.equals(cliente.getIdPessoa().getEnderecoEntity().getIdLogradouro().getCep())) {
             logradouro = logradouroService.findByCep(cep);
         } else {
             logradouro = cliente.getIdPessoa().getEnderecoEntity().getIdLogradouro();

@@ -2,6 +2,7 @@ package com.firecode.app.model.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -45,10 +48,10 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "avatar", nullable = false, length = 30)
     private String avatar;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioCadastro",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioCadastro", fetch = FetchType.LAZY)
     private Collection<ClienteEntity> clienteEntityCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioAtualizacao",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuarioAtualizacao", fetch = FetchType.LAZY)
     private Collection<ClienteEntity> clienteEntityCollection1;
 
     @JoinColumn(name = "id_pessoa", referencedColumnName = "id", nullable = false)
@@ -61,6 +64,11 @@ public class UsuarioEntity implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private UsuarioMapPermissaoEntity usuarioMapPermissaoEntity;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_map_permissao", joinColumns = @JoinColumn(name = "id_usuario"),
+             inverseJoinColumns = @JoinColumn(name = "id_permissao"))
+    private List<PermissaoEntity> permissoes;
 
     public UsuarioEntity() {
     }
@@ -141,6 +149,14 @@ public class UsuarioEntity implements Serializable {
 
     public void setUsuarioMapPermissaoEntity(UsuarioMapPermissaoEntity usuarioMapPermissaoEntity) {
         this.usuarioMapPermissaoEntity = usuarioMapPermissaoEntity;
+    }
+
+    public List<PermissaoEntity> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<PermissaoEntity> permissoes) {
+        this.permissoes = permissoes;
     }
 
     @Override

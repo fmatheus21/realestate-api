@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -63,6 +64,14 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({EmptyResultDataAccessException.class})
     public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
         String message = messageSource.getMessage("message.error.not.found", null, LocaleContextHolder.getLocale());
+        String cause = ExceptionUtils.getRootCauseMessage(ex);
+        List<MessageResponse> erros = Arrays.asList(new MessageResponse(404, HttpStatus.BAD_REQUEST.name(), message, cause));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<?> handlerUsernameNotFoundException(UsernameNotFoundException ex, WebRequest request) {
+        String message = messageSource.getMessage("message.error.login", null, LocaleContextHolder.getLocale());
         String cause = ExceptionUtils.getRootCauseMessage(ex);
         List<MessageResponse> erros = Arrays.asList(new MessageResponse(404, HttpStatus.BAD_REQUEST.name(), message, cause));
         return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);

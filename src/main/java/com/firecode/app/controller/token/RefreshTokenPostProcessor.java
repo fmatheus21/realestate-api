@@ -3,6 +3,7 @@ package com.firecode.app.controller.token;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @ControllerAdvice
 public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2AccessToken> {
+
+    @Value("${api.secure.https}")
+    private boolean secure;
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -42,8 +46,8 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
     private void addRefreshTokenCookie(String refreshToken, HttpServletRequest req, HttpServletResponse res) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false);    // TODO: Alterar para true em producao
-        cookie.setPath(req.getContextPath() + "/api/oauth/token");
+        cookie.setSecure(secure);
+        cookie.setPath(req.getContextPath() + "/oauth/token");
         cookie.setMaxAge(2592000); // Expira em 30 dias
         res.addCookie(cookie);
     }

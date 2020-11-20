@@ -22,31 +22,29 @@ public class RefreshTokenPreProcessor implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
 
-        if ("/api/oauth/token".equalsIgnoreCase(req.getRequestURI())
-                && "refresh_token".equalsIgnoreCase(req.getParameter("grant_type"))
+        if ("/oauth/token".equalsIgnoreCase(req.getRequestURI())
+                && "refresh_token".equals(req.getParameter("grant_type"))
                 && req.getCookies() != null) {
 
             for (Cookie cookie : req.getCookies()) {
-                if (cookie.getName().equalsIgnoreCase("refreshToken")) {
+                if (cookie.getName().equals("refreshToken")) {
                     String refreshToken = cookie.getValue();
                     req = new MyServletRequestWrapper(req, refreshToken);
                 }
             }
 
         }
-        
+
         chain.doFilter(req, response);
 
     }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void destroy() {
-        Filter.super.destroy(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

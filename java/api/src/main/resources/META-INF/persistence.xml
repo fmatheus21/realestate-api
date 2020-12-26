@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.firecode_imobiliaria_jar_0.0.1PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.firecode.app.model.entity.PessoaTipoEntity</class>
+    <class>com.firecode.app.model.entity.PermissaoEntity</class>
+    <class>com.firecode.app.model.entity.PessoaEntity</class>
+    <class>com.firecode.app.model.entity.TesteEntity</class>
+    <class>com.firecode.app.model.entity.CityEntity</class>
+    <class>com.firecode.app.model.entity.ClientEntity</class>
+    <class>com.firecode.app.model.entity.AddressEntity</class>
+    <class>com.firecode.app.model.entity.UserEntity</class>
+    <class>com.firecode.app.model.entity.UserPermissionHasEntity</class>
+    <class>com.firecode.app.model.entity.UserStatusEntity</class>
+    <class>com.firecode.app.model.entity.PermissionEntity</class>
+    <class>com.firecode.app.model.entity.UserPermissionJoinEntity</class>
+    <class>com.firecode.app.model.entity.PersonTypeEntity</class>
+    <class>com.firecode.app.model.entity.PersonEntity</class>
+    <class>com.firecode.app.model.entity.ContactEntity</class>
+    <class>com.firecode.app.model.entity.PlanEntity</class>
+    <class>com.firecode.app.model.entity.StreetEntity</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/imobiliaria?serverTimezone=UTC&amp;useLegacyDatetimeCode=true"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="210683"/>
+    </properties>
+  </persistence-unit>
+</persistence>
